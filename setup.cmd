@@ -96,10 +96,10 @@ cscript //nologo c:\windows\system32\slmgr.vbs /skms zhang.yt
 echo Disable automatic BitLocker encryption
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v PreventDeviceEncryption /t REG_DWORD /d 1 /f
 echo Install Office RT 2013
-.\Extra\Office\setup.exe
+.\WOA\Office\setup.exe
 echo Install Office license
 cscript //nologo c:\windows\system32\slmgr.vbs /upk //b ebef9f05-5273-404a-9253-c5e252f50555
-for %%g in (.\Extra\*.xrm-ms) do (
+for %%g in (.\WOA\*.xrm-ms) do (
 	cscript //nologo c:\windows\system32\slmgr.vbs //b /ilc %%~nxg
 	)
 cscript //nologo c:\windows\system32\slmgr.vbs /ipk KBKQT-2NMXY-JJWGP-M62JB-92CD4
