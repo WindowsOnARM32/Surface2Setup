@@ -69,7 +69,7 @@ echo Pause 15 second before next script...
 ping 127.0.0.1 /n 15 > 0
 call :diskpart win10
 bcdboot x:\windows /s s:
-call :dism .\WOA\surface2_win10_zh_cn_new.wim
+call :dism .\WOA\install.wim
 bootrec /rebuildbcd
 bcdedit /set {bootmgr} testsigning on
 bcdedit /set {default} testsigning on
@@ -84,9 +84,6 @@ goto :eof
 
 ::Set up Windows 10
 :MAIN_MENU_OPTION_6
-echo Disable expiration warning
-takeown /f C:\Windows\System32\LicensingUI.exe
-explorer /select,"C:\Windows\System32\LicensingUI.exe"
 echo Set page file size to 2047 MiB
 wmic computersystem where name="%computername%" set AutomaticManagedPagefile=False
 wmic pagefileset where name="C:\\pagefile.sys" set InitialSize=2047,MaximumSize=2047
@@ -98,27 +95,6 @@ cscript //nologo c:\windows\system32\slmgr.vbs /ato
 cscript //nologo c:\windows\system32\slmgr.vbs /skms zhang.yt
 echo Disable automatic BitLocker encryption
 reg add "HKLM\SYSTEM\CurrentControlSet\Control\BitLocker" /v PreventDeviceEncryption /t REG_DWORD /d 1 /f
-echo Disable UAC
-reg add "HKLM\SOFTWARE\Microsoft\Windows\CurrentVersion\Policies\System" /v EnableLUA /t REG_DWORD /d 0 /f
-echo Fix Camera
-reg add "HKLM\SOFTWARE\Microsoft\Windows Media Foundation\Platform" /v EnableFrameServerMode /t REG_DWORD /d 0 /f
-echo Install frameworks
-powershell -command "& {Add-AppxPackage -Path .\WOA\Dependencies\*.AppxBundle}"
-powershell -command "& {Add-AppxPackage -Path .\WOA\Dependencies\*.Appx}"
-powershell -command "& {Add-AppxPackage -Path .\WOA\Apps\*.AppxBundle}"
-powershell -command "& {Add-AppxPackage -Path .\WOA\Apps\*.Appx}"
-pause
-goto :eof
-
-::Install Extra packages
-:MAIN_MENU_OPTION_7
-echo Install Internet Explorer 11
-dism /Online /Add-Package /PackagePath:.\Extra\microsoft-windows-internetexplorer-optional-package.cab
-echo Install Windows 10 App updates
-powershell -command "& {Add-AppxPackage -Path .\Extra\Dependencies\*.AppxBundle}"
-powershell -command "& {Add-AppxPackage -Path .\Extra\Dependencies\*.Appx}"
-powershell -command "& {Add-AppxPackage -Path .\Extra\Apps\*.AppxBundle}"
-powershell -command "& {Add-AppxPackage -Path .\Extra\Apps\*.Appx}"
 echo Install Office RT 2013
 .\Extra\Office\setup.exe
 echo Install Office license
@@ -127,8 +103,6 @@ for %%g in (.\Extra\*.xrm-ms) do (
 	cscript //nologo c:\windows\system32\slmgr.vbs //b /ilc %%~nxg
 	)
 cscript //nologo c:\windows\system32\slmgr.vbs /ipk KBKQT-2NMXY-JJWGP-M62JB-92CD4
-echo Install NVIDIA Serial 16550 UART Driver
-pnputil /add-driver .\Extra\Uart16550tegra.inf /install
 echo Install Microsoft Print To PDF
 pnputil /add-driver "C:\Windows\System32\spool\tools\Microsoft Print To PDF\prnms009.inf" /install
 echo Install Microsoft XPS Document Writer
@@ -150,7 +124,6 @@ echo 3. Disable Secure Boot
 echo 4. Install Windows 10
 echo 5. Bypass Windows 10 OOBE error
 echo 6. Set up Windows 10
-echo 7. Install Extra packages
 goto :eof
 
 :exit
@@ -200,7 +173,7 @@ echo create partition efi size=36 >> %1
 echo format quick fs=fat32 >> %1
 echo assign letter=s >> %1
 echo create partition primary >> %1
-echo format quick compress fs=ntfs >> %1
+echo format quick fs=ntfs >> %1
 echo gpt attributes=0x0000000000000000 >> %1
 echo assign letter=c >> %1
 echo exit >> %1
