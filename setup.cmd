@@ -18,7 +18,7 @@ goto :MAIN_MENU_OPTION_END
 call :diskpart clean
 echo Pause 15 second before next script...
 ::https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskpart-scripts-and-examples
-timeout /t 15
+ping 127.0.0.1 /n 15 > 0
 call :diskpart format
 mkdir T:\Recovery\WindowsRE\
 copy .\sources\boot.wim T:\Recovery\WindowsRE\winre.wim
@@ -66,7 +66,7 @@ goto :eof
 call :diskpart mount
 echo Pause 15 second before next script...
 ::https://docs.microsoft.com/en-us/windows-server/administration/windows-commands/diskpart-scripts-and-examples
-timeout /t 15
+ping 127.0.0.1 /n 15 > 0
 call :diskpart win10
 bcdboot x:\windows /s s:
 call :dism .\WOA\surface2_win10_zh_cn_new.wim
