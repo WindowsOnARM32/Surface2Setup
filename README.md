@@ -59,7 +59,7 @@ Copy the folowing files and folder from your recovery file to the drive:
 
 The `install.wim` in `.\sources\` is the recovery image. If you are using a 4 GiB drive, you can delete this file afer you have unlocked the Secure Boot.
 
-Now copy `setup.cmd` to the drive as well, and create a new folder called `WOA` to store our own files.
+Now copy `setup.cmd` from this repo to the drive as well, and create a new folder called `WOA` to store our own files.
 
 From `SecureBotPatch.zip` copy `SecureBootDebug.efi` and `SecureBootDebugPolicy.p7b` to `.\WOA\`.
 
