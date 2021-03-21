@@ -1,10 +1,10 @@
 # Surface2Setup
-Setup Windows RT 10 Preview on Surface 2
+Install Windows RT 10 Preview on your Surface 2
 
 Features:
 
 1. Support installing both the original Windows RT 8.1 and a customized Windows RT 10 from recovery
-2. Contains the necessary parts to disable Secure Boot (potentially could be run in the recovery directly instead of Windows RT, although untested since my device is already unlocked)
+2. Contains the script to disable Secure Boot (potentially could be run in the recovery directly instead of Windows RT, although untested since my device is already unlocked)
 3. Post installation setup  
 
 # Folder structure
@@ -23,7 +23,7 @@ Features:
 
 Go to Microsoft's [Surface Recovery Image Download](https://support.microsoft.com/en-us/surface-recovery-image) to download the recovery file.
 
-Go to Alexenferman's [guide](https://www.alexenferman.com/articles/SurfaceRT/W10-OA-SurfaceRT.html) to download SecureBotPatch.zip.
+Go to Alexenferman's [guide](https://www.alexenferman.com/articles/SurfaceRT/W10-OA-SurfaceRT.html) to download SecureBootPatch.zip.
 
 Go to Alexenferman's [extra section](https://old.alexenferman.com/devices/extras-windows-10-oa) to download Office 2013 RT. You will need both the installer and the patch.
 
@@ -86,9 +86,9 @@ Now if someone wants to try our script, here are the steps:
 
 2. Boot into Windows RT. Press Win+X, and click `Windows PowerShell (Admin)`, then type `d:\setup.cmd` and enter, type `2` and enter. Your Surface 2 will automatically reboot. You will then see a `Secure Boot Debug Policy Applicator` window. Using volume buttons to select `Accept and install`, then pressing the Windows key to confirm. You can use the Windows button that's on the tablet.
 
-3. Boot into Windows RT. Press Win+X, and click `Windows PowerShell (Admin)`, then type `d:\setup.cmd` and enter, type `3` and enter. Your Surface 2 will automatically reboot. When you see the Windows is rebooting, hold `Volume Down` button, until the Surface is showing the booting logo (white `Surface` on black background). You can then release the button and now you are booting into the USB drive.
+3. Boot into Windows RT. Press Win+X, and click `Windows PowerShell (Admin)`, then type `d:\setup.cmd` and enter, type `3` and enter. Your Surface 2 will automatically reboot. When you see the Windows is rebooting, hold `Volume Down` button, until the Surface is showing the booting logo (white `Surface` on black background). You can then release the button and now you are booting into the recovery mode.
 
-4. In recovery mode, select your language and keyboard layout. Then click `Troubleshooting`, `Advanced Options`, and `Command Prompt`.
+4. In the recovery mode, select your language and keyboard layout. Then click `Troubleshooting`, `Advanced Options`, and `Command Prompt`.
 
 5. CHECK CHECK AND DOUBLE CHECK if you have `SecureBoot isn't configured correctly` on your screen's left bottom corner. Try again from step 2. If it still fails, try Alexenferman's [guide](https://www.alexenferman.com/articles/SurfaceRT/W10-OA-SurfaceRT.html).
 
@@ -105,3 +105,11 @@ Press Shift+F10 or Fn+Shift+F10 to launch a command prompt, then type `d:\setup.
 9. Once the setup is completed and you are in the desktop, press Win+X, and click `Windows PowerShell (Admin)`, then type `d:\setup.cmd` and enter, type `6` and enter. This will finish the Windows installation. Make sure you have the internet connection or activation might fail.
 
 Office activation could fail. I haven't looked into it yet.
+
+# Revert to Windows RT 8.1
+
+Follow step 3 and 4 to enter the recovery mode， then follow step 6 except enter `0` instead of `4` to install Windows RT 8.1. After the script is finished reboot to finish the setup.
+
+# TO-DO
+
+Rework option 1, 2, and 3 to install Secure Boot Debug Policy from recovery mode instead of from Windows RT 8.1. This should be possible by simply running option 2 in recovery, reboot, and running 3 and 4 together. However, since my device is unlocked, I can't test it.
